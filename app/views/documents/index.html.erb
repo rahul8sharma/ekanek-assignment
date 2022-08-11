@@ -22,6 +22,7 @@
         <td><%= document.uploaded_size_in_megabytes %></td>
         <td><%= link_to 'Show', document %></td>
         <td><%= link_to 'Download', download_document_url(document), target: "_blank" %></td>
+        <td><%= "Shorten URL: #{request.base_url + '/' + document.token}" %></td>
         <%
 =begin%>
  <td><%= link_to 'Edit', edit_document_path(document) %></td> 

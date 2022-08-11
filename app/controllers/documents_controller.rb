@@ -3,7 +3,12 @@ class DocumentsController < ApplicationController
 
   # GET /documents or /documents.json
   def index
-    @documents = current_user.documents
+    if params[:path].present?
+      @document = Document.find_by_token(params[:path])
+      send_data File.read(@document.path), filename: @document.original_filename
+    else
+      @documents = current_user.documents
+    end
   end
 
   # GET /documents/1 or /documents/1.json
