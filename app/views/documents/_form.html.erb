@@ -1,0 +1,19 @@
+<%= form_tag documents_url, multipart: true, id: 'fileupload' do %>
+  <div class="field">
+    <%= label_tag 'Title' %>
+    <%= text_field_tag :title %>
+  </div>
+
+   <div class="field">
+    <%= label_tag 'Description' %>
+    <%= text_field_tag :description %>
+  </div>
+
+  <%= label_tag 'File:' %>
+  <%= file_field_tag :document %>
+  <%= submit_tag 'Upload' %>
+<% end %>
+
+<div id="progress-bar">
+  <div id="progress"></div>
+</div>

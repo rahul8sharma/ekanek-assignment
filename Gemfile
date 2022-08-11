@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 2.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-rails'
+  gem 'pry'
 end
 
 group :development do
@@ -48,3 +49,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
+gem 'jquery-fileupload-rails'
+gem 'rubyzip'

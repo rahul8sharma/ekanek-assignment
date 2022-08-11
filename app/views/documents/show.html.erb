@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @document.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @document.description %>
+</p>
+
+<p>
+  <strong>Filename:</strong>
+  <%= @document.original_filename %>
+</p>
+
+<p>
+  <strong>Uploaded size:</strong>
+  <%= @document.uploaded_size_in_megabytes %>
+</p>
+
+<%
+=begin%>
+ <%= link_to 'Edit', edit_document_path(@document) %> |  
+<%
+=end%>
+<%= link_to 'Back', documents_path %>
