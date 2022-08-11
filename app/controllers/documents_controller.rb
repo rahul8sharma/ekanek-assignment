@@ -1,5 +1,5 @@
 class DocumentsController < ApplicationController
-  before_action :set_document, only: %i[ show edit update destroy compress ]
+  before_action :set_document, only: %i[ show edit update destroy compress download ]
 
   # GET /documents or /documents.json
   def index
@@ -66,6 +66,10 @@ class DocumentsController < ApplicationController
       zipfile.add(file_name, File.join(folder, file_name))
       zipfile.get_output_stream("myFile") { |f| f.write "myFile contains just this" }
     end
+  end
+
+  def download
+    send_data File.read(@document.path), filename: @document.original_filename
   end
 
   # PATCH/PUT /documents/1 or /documents/1.json
