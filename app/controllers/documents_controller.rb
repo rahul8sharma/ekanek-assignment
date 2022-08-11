@@ -1,5 +1,5 @@
 class DocumentsController < ApplicationController
-  before_action :set_document, only: %i[ show edit update destroy compress download ]
+  before_action :set_document, only: %i[ show edit update destroy compress download chunk_create ]
 
   # GET /documents or /documents.json
   def index
@@ -22,16 +22,7 @@ class DocumentsController < ApplicationController
 
   # POST /documents or /documents.json
   def create
-    original_filename = params[:original_filename]
-    dir  = Rails.root.join('tmp', 'document').to_s
-    filename = "#{SecureRandom.uuid}#{File.extname(original_filename)}"
-    FileUtils.mkdir_p(dir) unless File.exist?(dir)
-
-    @document = current_user.documents.new(
-      original_filename: original_filename,
-      path: File.join(dir, filename),
-      filename: filename
-    )
+    @document = current_user.documents.new( original_filename: params[:original_filename] )
 
     if @document.save
       render json: { id: @document.id, uploaded_size: @document.uploaded_size }
@@ -41,8 +32,7 @@ class DocumentsController < ApplicationController
   end
 
   def chunk_create
-    file    = params[:document]
-    @document = Document.find_by(id: params[:id])
+    file = params[:document]
     @document.uploaded_size += file.size
 
     if @document.save
