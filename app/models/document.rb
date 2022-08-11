@@ -3,7 +3,7 @@ class Document < ApplicationRecord
 
   attr_accessor :file
 
-  before_create :create_filename
+  before_create :set_token
   before_create :modify_columns
 
   def uploaded_size_in_megabytes
@@ -16,13 +16,18 @@ class Document < ApplicationRecord
     dir  = Rails.root.join('tmp', 'document').to_s
     FileUtils.mkdir_p(dir) unless File.exist?(dir)
 
+    self.filename = "#{self.token}#{File.extname(self.original_filename)}"
     self.path = File.join(dir, self.filename)
   end
 
-  def create_filename
-    self.filename = loop do
-      new_filename = "#{SecureRandom.uuid}#{File.extname(self.original_filename)}"
-      break new_filename unless Document.exists?(filename: new_filename)
+  def set_token
+		self.token = Document.generate_token
+	end
+
+  def self.generate_token
+    loop do
+      random_token = SecureRandom.hex(4)
+      break random_token unless Document.exists?(token: random_token)
     end
   end
 end
